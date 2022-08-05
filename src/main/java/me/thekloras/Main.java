@@ -14,6 +14,7 @@ public class Main {
         String logPassword;
         String regUsername;
         String regPassword;
+        String userRole;
         UserDAO userDAO = new UserDAO();
         Scanner scan = new Scanner(System.in);
 
@@ -23,7 +24,7 @@ public class Main {
                     "2. For register.\n" +
                     "Please select a number for operation:");
             loginOrReg = scan.next();
-            if (loginOrReg.contains("1")) {
+            if (loginOrReg.equals("1")) {
                 System.out.println("Enter your username:");
                 logUsername = scan.next();
                 System.out.println("Enter your password:");
@@ -36,12 +37,18 @@ public class Main {
                         adminFunc();
                     }
                 }
-            } else if (loginOrReg.contains("2")) {
+            } else if (loginOrReg.equals("2")) {
                 System.out.println("Create your username:");
                 regUsername = scan.next();
                 System.out.println("Create your password:");
                 regPassword = scan.next();
-                userDAO.registration(regUsername, regPassword);
+                System.out.println("Enter account role(user,admin):");
+                userRole = scan.next();
+                if(userRole.equals("user")||userRole.equals("admin")){}
+                    else {
+                        userRole = "user";
+                }
+                userDAO.registration(regUsername, regPassword, userRole);
             }
             HibernateUtil.getSessionFactory().close();
             break;
@@ -49,6 +56,7 @@ public class Main {
     }
 
     public static void adminFunc(){
+        int x; //used for choices, temporary integer
         while (true) {
             MenuDAO menuDAO = new MenuDAO();
             Scanner scan = new Scanner(System.in);
@@ -59,7 +67,7 @@ public class Main {
             int dishUpdate;
             String updateDish;
             String updateDishDesc;
-            int approveOrder;
+            int Order;
             int resetOrderCount = 0;
             System.out.println("Welcome! Which operation you would like to execute?\n" +
                     "1. For adding a new dish.\n" +
@@ -97,13 +105,23 @@ public class Main {
                 menuDAO.editDish(dishUpdate, updateDish, updateDishDesc);
                 System.out.println("Dish updated!");
             }
-            else if (chooseOpAdmin.contains("4")) {
+            else if (chooseOpAdmin.equals("4")) {
                 System.out.println("All orders:\n");
                 menuDAO.allDishesAdmin();
-                System.out.println("Write the id of the order you want to approve:\n");
-                approveOrder = scan.nextInt();
-                menuDAO.approveOrder(approveOrder, resetOrderCount);
-                System.out.println("Order approved!");
+                System.out.println("Approve dish: 1 \nRemove dish: 2");
+                x = scan.nextInt();
+                if (x==1){
+                    System.out.println("Write the id of the order you want to approve:\n");
+                    Order = scan.nextInt();
+                    menuDAO.approveOrder(Order, resetOrderCount);
+                    System.out.println("Order approved!");
+                } else if (x==2) {
+                    System.out.println("Write the id of the order you want to remove:\n");
+                    Order = scan.nextInt();
+                    menuDAO.removeOrder(Order, resetOrderCount);
+                    System.out.println("Order approved!");
+                }
+
             }
             else {
                 System.out.println("Logging out!");

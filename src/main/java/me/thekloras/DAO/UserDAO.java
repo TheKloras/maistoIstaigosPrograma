@@ -9,11 +9,11 @@ public class UserDAO {
     public UserDAO() {
     }
 
-    public void registration(String regUsername, String regPassword) {
+    public void registration(String regUsername, String regPassword, String UserRole) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         String password = BCryptPassword.hashPassword(regPassword);
-        User user = new User(regUsername, password, User.ROLE_USER);
+        User user = new User(regUsername, password, UserRole);
         session.save(user);
         session.getTransaction().commit();
         System.out.println("Register successful!");

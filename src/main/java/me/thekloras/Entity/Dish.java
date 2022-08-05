@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "foodmenu")
 
-public class Menu {
+public class Dish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +22,16 @@ public class Menu {
     @Column(name = "menuId")
     private int menuId;
 
-    public Menu() {
+    public Dish() {
     }
 
-    public Menu(int dishId, String dishName, String dishDesc) {
+    public Dish(int dishId, String dishName, String dishDesc) {
         this.dishId = dishId;
         this.dishName = dishName;
         this.dishDesc = dishDesc;
     }
 
-    public Menu(String dishName, String dishDesc) {
+    public Dish(String dishName, String dishDesc) {
         this.dishName = dishName;
         this.dishDesc = dishDesc;
     }

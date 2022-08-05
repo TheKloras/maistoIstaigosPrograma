@@ -59,6 +59,15 @@ public class MenuDAO {
         session.update(menu);
         session.getTransaction().commit();
     }
+    public void removeOrder(int id, int orderCount){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Menu menu = session.get(Menu.class, id);
+        menu.setBought(false);
+        menu.setOrderCount(orderCount);
+        session.update(menu);
+        session.getTransaction().commit();
+    }
 
     public void allDishesUser(){
         Session session = HibernateUtil.getSessionFactory().openSession();
